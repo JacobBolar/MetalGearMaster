@@ -6,19 +6,15 @@ namespace MetalGear
     {
         public PickupCommand()
         {
-            this.Name = "pickup";
+            Name = "pickup";
         }
 
         public override bool Execute(Snake snake)
         {
-            if(this.HasSecondWord())
-            {
+            if (HasSecondWord())
                 snake.Pickup(SecondWord);
-            }
             else
-            {
                 Console.WriteLine("pickup what?");
-            }
 
             return false;
         }

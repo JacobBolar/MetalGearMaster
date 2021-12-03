@@ -1,10 +1,11 @@
 ﻿namespace MetalGear
 {
+    //Stats command to look at snakes stats/inventory
     public class StatsCommand : Command
     {
         public StatsCommand()
         {
-            this.Name = "stats";
+            Name = "stats";
         }
 
         public override bool Execute(Snake snake)

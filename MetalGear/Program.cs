@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace MetalGear
+﻿namespace MetalGear
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Game game = new Game();
+            var game = new Game();
             game.Start();
             game.Play();
             game.End();

@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System;
 
 namespace MetalGear
 {
     public class Parser
     {
-        private CommandWords commands;
+        private readonly CommandWords commands;
 
         public Parser() : this(new CommandWords())
         {
-
         }
 
         public Parser(CommandWords newCommands)
@@ -21,20 +18,16 @@ namespace MetalGear
         public Command ParseCommand(string commandString)
         {
             Command command = null;
-            string[] words = commandString.Split(' ');
+            var words = commandString.Split(' ');
             if (words.Length > 0)
             {
                 command = commands.Get(words[0]);
                 if (command != null)
                 {
                     if (words.Length > 1)
-                    {
                         command.SecondWord = words[1];
-                    }
                     else
-                    {
                         command.SecondWord = null;
-                    }
                 }
                 else
                 {
@@ -45,6 +38,7 @@ namespace MetalGear
             {
                 Console.WriteLine("No words parsed!");
             }
+
             return command;
         }
 

@@ -7,20 +7,19 @@ namespace MetalGear
         private readonly Snake snake;
         private readonly Parser parser;
         private bool playing;
-        private Militant militant;
+        private Militant _militant;
 
         public Game()
         {
             playing = false;
             parser = new Parser(new CommandWords());
             snake = new Snake(OuterHeaven.Instance.Entrance);
-            militant = new Militant();
+            _militant = new Militant();
         }
 
         // Main Game Loop. Finished when self destruct device is picked up.
         public void Play()
         {
-            snake.GiveKeyRing();
             //variable to break the loop
             bool finished = false;
             while (!finished)

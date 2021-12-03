@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
 
 namespace MetalGear
 {
-
+    //Delegate design pattern
     public interface RoomDelegate
     {
         Door GetExit(string exitName);
-        Room ContainingRoom {set; get; }
+        Room ContainingRoom { set; get; }
         Dictionary<string, Door> Exits { get; set; }
         string Description();
     }
 
+    //making tranport room a delegate
     public class TransportRoom : RoomDelegate
     {
         private Room _containingRoom;
@@ -33,14 +32,13 @@ namespace MetalGear
         {
             set
             {
+                //Random function from outerheaven to generate a new room
                 _containingRoom = value;
                 _rDoor = new Door(_containingRoom, OuterHeaven.RandomRoom(), false);
             }
-            get
-            {
-                return _containingRoom;
-            }
+            get => _containingRoom;
         }
+
         public Dictionary<string, Door> Exits { get; set; }
 
         public string Description()
@@ -48,37 +46,25 @@ namespace MetalGear
             return "\n";
         }
     }
+
+    //Room Class
     public class Room
     {
-        private Dictionary<string, Door> exits;
-        private string _tag;
+        private readonly Dictionary<string, Door> exits;
         public Dictionary<string, IItem> items;
         public ItemContainer chest; //new
-       
-        public string Tag
-        {
-            get
-            {
-                return _tag;
-            }
-            set
-            {
-                _tag = value;
-            }
-        }
+
+        public string Tag { get; set; }
 
         private RoomDelegate _delegate;
 
         public RoomDelegate Delegate
         {
-            set
-            {
-                _delegate = value;
-            }
+            set => _delegate = value;
         }
+
         public Room() : this("No Tag")
         {
-
         }
 
         public Room(string tag)
@@ -86,7 +72,7 @@ namespace MetalGear
             exits = new Dictionary<string, Door>();
             items = new Dictionary<string, IItem>();
             chest = new ItemContainer("chest");
-            this.Tag = tag;
+            Tag = tag;
         }
 
         public void SetExit(string exitName, Door door)
@@ -94,66 +80,55 @@ namespace MetalGear
             exits[exitName] = door;
         }
 
-        public Door GetExit(string exitName) // get exit for current room
+        // get exit for current room
+        public Door GetExit(string exitName)
         {
             Door door = null;
             exits.TryGetValue(exitName, out door);
             return door;
         }
 
-        public string GetExits() //get exits for the current room
+        //get exits for the current room
+        public string GetExits()
         {
-            string exitNames = "Exits: ";
-            Dictionary<string, Door>.KeyCollection keys = exits.Keys;
-            foreach (string exitName in keys)
-            {
-                exitNames += " " + exitName;
-            }
+            var exitNames = "Exits: ";
+            var keys = exits.Keys;
+            foreach (var exitName in keys) exitNames += " " + exitName;
 
             return exitNames;
         }
 
         public string Description()
         {
-            return "You are in the " + this.Tag + ".\n *** " + this.GetExits();
+            return "You are in the " + Tag + ".\n *** " + GetExits();
         }
 
-        public void addItem(ItemContainer itemContainer) //add item to room 
+        //add item to room 
+        public void addItem(ItemContainer itemContainer)
         {
             //items.Add(item.name, item);
             chest = itemContainer;
         }
 
-        public string displayItems() // display items in room 
+        // display items in room 
+        public string displayItems()
         {
-            string returnString = "";
-            foreach (string item in items.Keys)
-            {
-                returnString += item + ", ";
-            }
+            var returnString = "";
+            foreach (var item in items.Keys) returnString += item + ", ";
 
             return chest.name;
         }
-
-        public void removeItem(String item) //remove item from chest
-        {
-            items.Remove(item);
-        }
         
-        
-
-        public IItem getItem(string item) // gets item from chest
+        // gets item from chest
+        public IItem getItem(string item)
         {
             if (items.ContainsKey(item))
             {
-                items.TryGetValue(item, out IItem I);
+                items.TryGetValue(item, out var I);
                 return I;
-                
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 }

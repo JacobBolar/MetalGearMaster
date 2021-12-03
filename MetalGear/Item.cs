@@ -1,30 +1,22 @@
-﻿using System;
-
-namespace MetalGear
+﻿namespace MetalGear
 {
     //Item classes, IItem interface
     public class Item : IItem
     {
         public string name { get; set; }
         private float _weight;
-        public float weight {  
+
+        public float weight
+        {
             get
             {
                 if (_decorator == null)
-                {
                     return _weight;
-                }
-                else
-                {
-                    return _weight + _decorator.weight;
-                }
-
+                return _weight + _decorator.weight;
             }
-            set
-            {
-                _weight = value;
-            } 
+            set => _weight = value;
         }
+
         private string _description { get; set; }
 
         //Grabbable is if it can be picked up or not
@@ -32,14 +24,9 @@ namespace MetalGear
         public string Description => _description;
         private IItem _decorator;
         public bool isContainer => false;
-        private int _value;
-        public int value
-        {
-            get { return _value;}
-            set { _value = value; }
-        }
+        public int value { get; set; }
 
-        public Item() : this("Nameless")
+        public Item() : this("NoName")
         {
         }
 
@@ -72,10 +59,10 @@ namespace MetalGear
                 _decorator = decorator;
             else
                 _decorator.addDecorator(decorator);
-            
+
             UpdateDescription();
         }
-        
+
         public void UpdateDescription()
         {
             _description = "Item Description: name: " + name + "," + "weight: " + weight + "," + "value: " + value +

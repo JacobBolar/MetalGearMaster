@@ -1,23 +1,19 @@
-﻿using System;
-namespace MetalGear
+﻿namespace MetalGear
 {
-    public class SellCommand : Command // Command used to sell items in trading room
+    // Command used to sell items in trading room
+    public class SellCommand : Command 
     {
         public SellCommand()
         {
-            this.Name = "sell";
+            Name = "sell";
         }
 
         public override bool Execute(Snake snake)
         {
-            if (this.HasSecondWord())
-            {
-                snake.sell(this.SecondWord);
-            }
+            if (HasSecondWord())
+                snake.sell(SecondWord);
             else
-            {
                 snake.OutputMessage("\nSell what?");
-            }
             return false;
         }
     }

@@ -1,25 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace MetalGear
+﻿namespace MetalGear
 {
     public class QuitCommand : Command
     {
-
-        public QuitCommand() : base()
+        public QuitCommand()
         {
-            this.Name = "quit";
+            Name = "quit";
         }
 
         override
             public bool Execute(Snake snake)
         {
-            bool answer = true;
-            if (this.HasSecondWord())
+            var answer = true;
+            if (HasSecondWord())
             {
-                snake.OutputMessage("\nI cannot quit " + this.SecondWord);
+                snake.OutputMessage("\nI cannot quit " + SecondWord);
                 answer = false;
             }
+
             return answer;
         }
     }

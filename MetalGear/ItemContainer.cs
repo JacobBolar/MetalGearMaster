@@ -7,23 +7,24 @@ namespace MetalGear
     {
         private readonly Dictionary<string, IItem> _chest;
         public string name { get; set; }
+        
+        //Weight for chest
         private float _weight;
-
         public float weight
         {
             get
             {
                 float containedWeight = 0;
-                //Adding all weights together
                 foreach (var item in _chest.Values) containedWeight += item.weight;
                 return _weight + containedWeight;
             }
             set => _weight = value;
         }
 
-        private string _description { get; set; }
+        //if chest is grabbable, not really used cause you can't pickup chest
         public bool grabbable { get; set; }
-
+        
+        private string _description { get; }
         public string Description
         {
             get
@@ -70,7 +71,7 @@ namespace MetalGear
         }
 
         //Decorate design pattern
-        public void addDecorator(IItem decorator) 
+        public void addDecorator(IItem decorator)
         {
             if (_decorator == null)
                 _decorator = decorator;
@@ -93,13 +94,14 @@ namespace MetalGear
         }
 
         //Locks chest 
-        public void Lock() //locks chest
+        //never used but have it just in case
+        public void Lock() 
         {
             isLocked = true;
         }
 
         //unlocks chest
-        public void unlock() //unlocks chest
+        public void unlock()
         {
             isLocked = false;
         }

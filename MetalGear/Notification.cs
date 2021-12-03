@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MetalGear
 {
     //Notification Design Pattern
     public class Notification
     {
-        public String Name { get; set; }
-        public Object Object { get; set; }
-        public Dictionary<String, Object> userInfo { get; set; }
+        public string Name { get; set; }
+        public object Object { get; set; }
+        public Dictionary<string, object> userInfo { get; set; }
+
         public Notification() : this("NotificationName")
         {
         }
 
-        public Notification(String name) : this(name, null)
+        public Notification(string name) : this(name, null)
         {
         }
 
-        public Notification(String name, Object obj) : this(name, obj, null)
+        public Notification(string name, object obj) : this(name, obj, null)
         {
         }
 
-        public Notification(String name, Object obj, Dictionary<String, Object> userInfo)
+        public Notification(string name, object obj, Dictionary<string, object> userInfo)
         {
-            this.Name = name;
-            this.Object = obj;
+            Name = name;
+            Object = obj;
             this.userInfo = userInfo;
         }
     }
