@@ -1,6 +1,6 @@
 ﻿namespace MetalGear
 {
-    //used to go back to the previous room.
+    // this class will go back to the previous room
     public class BackCommand : Command
     {
         public BackCommand()
@@ -8,7 +8,8 @@
             Name = "back";
         }
 
-        public override bool Execute(Snake snake)
+        override
+            public bool Execute(Snake snake)
         {
             snake.Back();
             return false;

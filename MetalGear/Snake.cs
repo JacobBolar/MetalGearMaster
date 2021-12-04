@@ -14,19 +14,37 @@ namespace MetalGear
         public Dictionary<string, IItem> Inventory { get; }
 
         //current room
-        public Room CurrentRoom { get; set; }
+        private Room _currentRoom = null;
+        // stack of rooms for the back command
+        // will pop the last room from the stack to go back
+        private Stack<Room> roomsVisited = new Stack<Room>();
+        public Room CurrentRoom
+        {
+            get
+            {
+                return _currentRoom;
+            }
+            set
+            {
+                _currentRoom = value;
+            }
+        }
         
         public Snake(Room room)
         {
-            CurrentRoom = room;
+            roomsVisited = new Stack<Room>();
+            _currentRoom = room;
             Inventory = new Dictionary<string, IItem>();
         }
 
         //snake walks to room
         public void WalkTo(string direction) 
         {
+            //ading room to stack   
+            roomsVisited.Push(this.CurrentRoom);
+            
             //gets exit direction of door 
-            var door = CurrentRoom.GetExit(direction); 
+            var door = _currentRoom.GetExit(direction); 
 
             if (door != null)
             {
@@ -43,11 +61,11 @@ namespace MetalGear
                     // assign other side of door to next room
                     var nextRoom = door.getOtherSideRoom(CurrentRoom);
                     CurrentRoom = door.getOtherSideRoom(CurrentRoom);
-                    CurrentRoom = nextRoom;
+                    _currentRoom = nextRoom;
                     var snakeEnteredRoom = new Notification("snakeEnteredRoom", this);
                     NotificationCenter.Instance.PostNotification(snakeEnteredRoom);
                     OutputMessage("\n" + CurrentRoom.Description());
-                    Console.WriteLine("Items in room: " + CurrentRoom.displayItems());
+                    Console.WriteLine("Items in room: " + _currentRoom.displayItems());
                 }
             }
             else
@@ -59,14 +77,15 @@ namespace MetalGear
         // back command 
         public void Back() 
         {
-            var room = CurrentRoom;
-            if (room != null)
+            Room nextRoom = this._currentRoom;
+            if(roomsVisited.Count > 0)
             {
-                CurrentRoom = room;
-                var notification = new Notification("snakeWentBack", this);
+                this._currentRoom = roomsVisited.Pop();
+                Notification notification = new Notification("snakeLeavingRoom", this);
                 NotificationCenter.Instance.PostNotification(notification);
-                OutputMessage("\n" + CurrentRoom.Description());
-                Console.WriteLine("Items in room: " + CurrentRoom.displayItems());
+                notification = new Notification("snakeWentBack", this);
+                NotificationCenter.Instance.PostNotification(notification);
+                this.OutputMessage("\n" + this._currentRoom.Description());
             }
             else
             {
